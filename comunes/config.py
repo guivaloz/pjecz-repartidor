@@ -6,6 +6,9 @@ class Config(object):
 
     def __init__(self):
         self.rama = ''
+        self.distrito = ''  # Filtro
+        self.autoridad = ''  # Filtro
+        self.fecha = ''  # Filtro
         self.fecha_por_defecto = ''
         self.deposito_ruta = ''
         self.json_ruta = ''

@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from depositos.autoridad import Autoridad
 
 
@@ -15,14 +15,19 @@ class Distrito(object):
     def rastrear(self):
         """ Rastrear """
         if self.ya_rastreado is False:
-            if not os.path.exists(self.ruta) or not os.path.isdir(self.ruta):
+            ruta = Path(self.ruta)
+            if not ruta.exists() or not ruta.is_dir():
                 raise Exception(f'AVISO: No existe el directorio {self.ruta}')
-            for item in os.scandir(self.ruta):
-                if item.is_dir(follow_symlinks=False):
-                    autoridad = Autoridad(self.config, os.path.join(self.ruta, item.path))
+            if self.config.autoridad == '':
+                patron = '*'
+            else:
+                patron = f'{self.config.autoridad}*'
+            for item in ruta.glob(patron):
+                if item.is_dir():
+                    autoridad = Autoridad(self.config, str(item))
                     autoridad.rastrear()
                     self.autoridades.append(autoridad)
-            self.nombre = os.path.split(self.ruta)[1]  # Nombre del directorio
+            self.nombre = ruta.parts[-1]
             self.ya_rastreado = True
 
     def __repr__(self):
