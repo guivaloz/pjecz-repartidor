@@ -22,12 +22,12 @@ class Distrito(object):
                 patron = '*'
             else:
                 patron = f'{self.config.autoridad}*'
+            self.nombre = ruta.parts[-1]
             for item in ruta.glob(patron):
                 if item.is_dir():
-                    autoridad = Autoridad(self.config, str(item))
+                    autoridad = Autoridad(self.config, str(item), self.nombre)
                     autoridad.rastrear()
                     self.autoridades.append(autoridad)
-            self.nombre = ruta.parts[-1]
             self.ya_rastreado = True
 
     def __repr__(self):

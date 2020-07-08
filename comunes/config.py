@@ -11,7 +11,9 @@ class Config(object):
         self.fecha = ''  # Filtro
         self.fecha_por_defecto = ''
         self.deposito_ruta = ''
-        self.json_ruta = ''
+        self.metadatos_partes = ''
+        self.servidor_json_ruta = ''
+        self.servidor_json_url = ''
 
     def cargar_configuraciones(self):
         if self.rama == '':
@@ -21,7 +23,9 @@ class Config(object):
         try:
             self.fecha_por_defecto = settings['global']['fecha_por_defecto']
             self.deposito_ruta = settings[self.rama]['deposito_ruta']
-            self.json_ruta = settings[self.rama]['json_ruta']
+            self.metadatos_partes = settings[self.rama]['metadatos_partes']
+            self.servidor_json_ruta = settings[self.rama]['servidor_json_ruta']
+            self.servidor_json_url = settings[self.rama]['servidor_json_url']
         except KeyError:
             raise Exception(f'ERROR: Falta configuración en settings.ini para la rama {self.rama}')
 
