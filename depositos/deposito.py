@@ -41,7 +41,7 @@ class Deposito(object):
             descripcion = ' '.join(separados[3:])
         else:
             descripcion = ''
-        return({'distrito': distrito.nombre, 'autoridad': autoridad.nombre, 'fecha:': fecha, 'descripcion:': descripcion, 'archivo': archivo.name})
+        return({'distrito': distrito.nombre, 'autoridad': autoridad.nombre, 'fecha': fecha, 'descripcion': descripcion, 'archivo': archivo.name})
 
     def separar_fecha_expediente_descripcion(self, distrito, autoridad, archivo):
         return({})

@@ -40,7 +40,7 @@ class Autoridad(object):
             descripcion = ' '.join(separados[3:])
         else:
             descripcion = ''
-        return({'fecha:': fecha, 'descripcion:': descripcion, 'archivo': archivo.name})
+        return({'fecha': fecha, 'descripcion': descripcion, 'archivo': archivo.name})
 
     def separar_fecha_expediente_descripcion(self, archivo):
         return({})
