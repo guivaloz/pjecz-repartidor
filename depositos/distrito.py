@@ -1,8 +1,9 @@
 from pathlib import Path
+from depositos.base import Base
 from depositos.autoridad import Autoridad
 
 
-class Distrito(object):
+class Distrito(Base):
     """ Distrito """
 
     def __init__(self, config, ruta):

@@ -1,9 +1,10 @@
 import json
 from pathlib import Path
+from depositos.base import Base
 from comunes.funciones import cambiar_texto_a_identificador
 
 
-class Autoridad(object):
+class Autoridad(Base):
     """ Autoridad """
 
     def __init__(self, config, ruta, distrito_nombre):
@@ -30,24 +31,6 @@ class Autoridad(object):
                     self.archivos.append(item)
             self.ya_rastreado = True
 
-    def separar_fecha_descripcion(self, archivo):
-        separados = archivo.name.split('-')
-        if len(separados) >= 3:
-            fecha = f'{separados[0]}-{separados[1]}-{separados[2]}'
-        else:
-            fecha = self.config.fecha_por_defecto
-        if len(separados) >= 4:
-            descripcion = ' '.join(separados[3:])
-        else:
-            descripcion = ''
-        return({'fecha': fecha, 'descripcion': descripcion, 'archivo': archivo.name})
-
-    def separar_fecha_expediente_descripcion(self, archivo):
-        return({})
-
-    def separar_fecha_sentencia_expediente_genero_descripcion(self, archivo):
-        return({})
-
     def crear_ruta_json(self):
         """ Crear la ruta al archivo JSON /var/www/html/consultas/v2.0/<RAMA>/<DISTRITO>/<AUTORIDAD>.json """
         return(Path(
@@ -73,15 +56,6 @@ class Autoridad(object):
         listado = [funcion(archivo) for archivo in self.archivos]
         salida = {'data': listado}
         return(json.dumps(salida))
-
-    def guardar_json(self):
-        ruta = self.crear_ruta_json()
-        padre_dir = ruta.parent
-        if not padre_dir.exists():
-            padre_dir.mkdir(parents=True)
-        with open(ruta, 'w') as puntero:
-            puntero.write(self.crear_contenido_json())
-        return(str(ruta))
 
     def __repr__(self):
         archivos_repr = '\n      '.join([archivo.name for archivo in self.archivos])
