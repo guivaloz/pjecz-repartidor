@@ -58,7 +58,7 @@ class Deposito(Base):
             distrito.rastrear()
             for autoridad in distrito.autoridades:
                 autoridad.rastrear()
-                listado += [funcion(distrito, autoridad, archivo) for archivo in autoridad.archivos]
+                listado += [funcion(archivo, distrito=distrito, autoridad=autoridad) for archivo in autoridad.archivos]
         salida = {'data': listado}
         return(json.dumps(salida))
 

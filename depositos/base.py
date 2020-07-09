@@ -3,7 +3,7 @@
 class Base(object):
     """ Base """
 
-    def separar_fecha_descripcion(self, distrito, autoridad, archivo):
+    def separar_fecha_descripcion(self, archivo, distrito=None, autoridad=None):
         separados = archivo.name.split('-')
         if len(separados) >= 3:
             fecha = f'{separados[0]}-{separados[1]}-{separados[2]}'
@@ -13,9 +13,14 @@ class Base(object):
             descripcion = ' '.join(separados[3:])
         else:
             descripcion = ''
-        return({'distrito': distrito.nombre, 'autoridad': autoridad.nombre, 'fecha': fecha, 'descripcion': descripcion, 'archivo': archivo.name})
+        renglon = {'fecha': fecha, 'descripcion': descripcion, 'archivo': archivo.name}
+        if distrito is not None:
+            renglon['distrito'] = distrito.nombre
+        if autoridad is not None:
+            renglon['autoridad'] = autoridad.nombre
+        return(renglon)
 
-    def separar_fecha_expediente_descripcion(self, distrito, autoridad, archivo):
+    def separar_fecha_expediente_descripcion(self, archivo, distrito=None, autoridad=None):
         separados = archivo.name.split('-')
         if len(separados) >= 3:
             fecha = f'{separados[0]}-{separados[1]}-{separados[2]}'
@@ -29,9 +34,14 @@ class Base(object):
             descripcion = ' '.join(separados[5:])
         else:
             descripcion = ''
-        return({'Fecha': fecha, 'Expediente': expediente, 'Descripcion': descripcion, 'Archivo': archivo.name})
+        renglon = {'fecha': fecha, 'expediente': expediente, 'descripcion': descripcion, 'archivo': archivo.name}
+        if distrito is not None:
+            renglon['distrito'] = distrito.nombre
+        if autoridad is not None:
+            renglon['autoridad'] = autoridad.nombre
+        return(renglon)
 
-    def separar_fecha_sentencia_expediente_genero_descripcion(self, distrito, autoridad, archivo):
+    def separar_fecha_sentencia_expediente_genero_descripcion(self, archivo, distrito=None, autoridad=None):
         separados = archivo.name.split('-')
         if len(separados) >= 3:
             fecha = f'{separados[0]}-{separados[1]}-{separados[2]}'
@@ -49,7 +59,12 @@ class Base(object):
             p_genero = 'Sí'
         else:
             p_genero = 'No'
-        return({'Fecha': fecha, 'Sentencia': sentencia, 'Expediente': expediente, 'Genero': p_genero, 'Archivo': archivo.name})
+        renglon = {'fecha': fecha, 'sentencia': sentencia, 'expediente': expediente, 'genero': p_genero, 'archivo': archivo.name}
+        if distrito is not None:
+            renglon['distrito'] = distrito.nombre
+        if autoridad is not None:
+            renglon['autoridad'] = autoridad.nombre
+        return(renglon)
 
     def guardar_json(self):
         ruta = self.crear_ruta_json()
