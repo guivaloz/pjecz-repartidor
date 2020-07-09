@@ -8,8 +8,7 @@ class Deposito(Base):
     """ Depósito """
 
     def __init__(self, config, ruta):
-        self.config = config
-        self.ruta = ruta
+        super().__init__(config, ruta)
         self.nombre = ''
         self.distritos = []
         self.ya_rastreado = False

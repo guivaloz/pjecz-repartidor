@@ -1,11 +1,18 @@
 from datetime import datetime
+from urllib.parse import quote
 
 
 class Base(object):
     """ Base """
 
+    def __init__(self, config, ruta):
+        self.config = config
+        self.ruta = ruta
+
     def separar_fecha_descripcion(self, archivo, distrito=None, autoridad=None):
-        separados = archivo.name.split('-')
+        """ Separar fecha y descripción, entrega diccionario con el renglón """
+        separados = archivo.stem.split('-')
+        # Fecha
         if len(separados) >= 3:
             try:
                 ano = int(separados[0][0:4])
@@ -17,11 +24,16 @@ class Base(object):
                 fecha = self.config.fecha_por_defecto
         else:
             fecha = self.config.fecha_por_defecto
+        # Descripción
         if len(separados) >= 4:
             descripcion = ' '.join(separados[3:])
         else:
             descripcion = ''
-        renglon = {'fecha': fecha, 'descripcion': descripcion, 'archivo': archivo.name}
+        # Archivo
+        archivo_relativa_ruta = str(archivo)[len(self.config.deposito_ruta):]
+        url = quote(self.config.google_storage_url + archivo_relativa_ruta, safe=':/')
+        # Renglón
+        renglon = {'fecha': fecha, 'descripcion': descripcion, 'archivo': url}
         if distrito is not None:
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:
@@ -29,7 +41,9 @@ class Base(object):
         return(renglon)
 
     def separar_fecha_expediente_descripcion(self, archivo, distrito=None, autoridad=None):
+        """ Separar fecha, expediente y descripción, entrega diccionario con el renglón """
         separados = archivo.name.split('-')
+        # Fecha
         if len(separados) >= 3:
             try:
                 ano = int(separados[0][0:4])
@@ -41,15 +55,21 @@ class Base(object):
                 fecha = self.config.fecha_por_defecto
         else:
             fecha = self.config.fecha_por_defecto
+        # Expediente
         if len(separados) >= 5:
             expediente = f'{separados[3]}-{separados[4]}'
         else:
             expediente = ''
+        # Descripción
         if len(separados) >= 6:
             descripcion = ' '.join(separados[5:])
         else:
             descripcion = ''
-        renglon = {'fecha': fecha, 'expediente': expediente, 'descripcion': descripcion, 'archivo': archivo.name}
+        # Archivo
+        archivo_relativa_ruta = str(archivo)[len(self.config.deposito_ruta):]
+        url = quote(self.config.google_storage_url + archivo_relativa_ruta, safe=':/')
+        # Renglón
+        renglon = {'fecha': fecha, 'expediente': expediente, 'descripcion': descripcion, 'archivo': url}
         if distrito is not None:
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:
@@ -57,7 +77,9 @@ class Base(object):
         return(renglon)
 
     def separar_fecha_sentencia_expediente_genero_descripcion(self, archivo, distrito=None, autoridad=None):
+        """ Separar fecha, sentencia, expediente y género, entrega diccionario con el renglón """
         separados = archivo.name.split('-')
+        # Fecha
         if len(separados) >= 3:
             try:
                 ano = int(separados[0][0:4])
@@ -69,19 +91,26 @@ class Base(object):
                 fecha = self.config.fecha_por_defecto
         else:
             fecha = self.config.fecha_por_defecto
+        # Sentencia
         if len(separados) >= 5:
             sentencia = f'{separados[3]}-{separados[4]}'
         else:
             sentencia = ''
+        # Expediente
         if len(separados) >= 7:
             expediente = f'{separados[5]}-{separados[6]}'
         else:
             expediente = ''
+        # Género
         if len(separados) >= 8 and separados[7].lower() == 'g':
             p_genero = 'Sí'
         else:
             p_genero = 'No'
-        renglon = {'fecha': fecha, 'sentencia': sentencia, 'expediente': expediente, 'genero': p_genero, 'archivo': archivo.name}
+        # Archivo
+        archivo_relativa_ruta = str(archivo)[len(self.config.deposito_ruta):]
+        url = quote(self.config.google_storage_url + archivo_relativa_ruta, safe=':/')
+        # Renglón
+        renglon = {'fecha': fecha, 'sentencia': sentencia, 'expediente': expediente, 'genero': p_genero, 'archivo': url}
         if distrito is not None:
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:
@@ -89,6 +118,7 @@ class Base(object):
         return(renglon)
 
     def guardar_json(self):
+        """ Guardar JSON """
         ruta = self.crear_ruta_json()
         padre_dir = ruta.parent
         if not padre_dir.exists():

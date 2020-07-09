@@ -8,8 +8,7 @@ class Autoridad(Base):
     """ Autoridad """
 
     def __init__(self, config, ruta, distrito_nombre):
-        self.config = config
-        self.ruta = ruta
+        super().__init__(config, ruta)
         self.distrito_nombre = distrito_nombre
         self.nombre = ''
         self.archivos = []  # Lista de PosixPath

@@ -7,8 +7,7 @@ class Distrito(Base):
     """ Distrito """
 
     def __init__(self, config, ruta):
-        self.config = config
-        self.ruta = ruta
+        super().__init__(config, ruta)
         self.nombre = ''
         self.autoridades = []
         self.ya_rastreado = False
