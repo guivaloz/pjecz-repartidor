@@ -29,7 +29,7 @@ class Base(object):
             descripcion = ' '.join(separados[5:])
         else:
             descripcion = ''
-        return({'Fecha': fecha, 'Expediente': expediente, 'Descripcion': descripcion, 'Archivo': archivo})
+        return({'Fecha': fecha, 'Expediente': expediente, 'Descripcion': descripcion, 'Archivo': archivo.name})
 
     def separar_fecha_sentencia_expediente_genero_descripcion(self, distrito, autoridad, archivo):
         separados = archivo.name.split('-')
@@ -49,7 +49,7 @@ class Base(object):
             p_genero = 'Sí'
         else:
             p_genero = 'No'
-        return({'Fecha': fecha, 'Sentencia': sentencia, 'Expediente': expediente, 'Genero': p_genero, 'Archivo': archivo})
+        return({'Fecha': fecha, 'Sentencia': sentencia, 'Expediente': expediente, 'Genero': p_genero, 'Archivo': archivo.name})
 
     def guardar_json(self):
         ruta = self.crear_ruta_json()
