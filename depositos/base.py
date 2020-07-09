@@ -1,3 +1,4 @@
+from datetime import datetime
 
 
 class Base(object):
@@ -6,7 +7,14 @@ class Base(object):
     def separar_fecha_descripcion(self, archivo, distrito=None, autoridad=None):
         separados = archivo.name.split('-')
         if len(separados) >= 3:
-            fecha = f'{separados[0]}-{separados[1]}-{separados[2]}'
+            try:
+                ano = int(separados[0][0:4])
+                mes = int(separados[1][0:2])
+                dia = int(separados[2][0:2])
+                fecha = '{}-{}-{}'.format(str(ano).zfill(4), str(mes).zfill(2), str(dia).zfill(2))
+                datetime.strptime(fecha, '%Y-%m-%d')
+            except ValueError:
+                fecha = self.config.fecha_por_defecto
         else:
             fecha = self.config.fecha_por_defecto
         if len(separados) >= 4:
@@ -23,7 +31,14 @@ class Base(object):
     def separar_fecha_expediente_descripcion(self, archivo, distrito=None, autoridad=None):
         separados = archivo.name.split('-')
         if len(separados) >= 3:
-            fecha = f'{separados[0]}-{separados[1]}-{separados[2]}'
+            try:
+                ano = int(separados[0][0:4])
+                mes = int(separados[1][0:2])
+                dia = int(separados[2][0:2])
+                fecha = '{}-{}-{}'.format(str(ano).zfill(4), str(mes).zfill(2), str(dia).zfill(2))
+                datetime.strptime(fecha, '%Y-%m-%d')
+            except ValueError:
+                fecha = self.config.fecha_por_defecto
         else:
             fecha = self.config.fecha_por_defecto
         if len(separados) >= 5:
@@ -44,7 +59,14 @@ class Base(object):
     def separar_fecha_sentencia_expediente_genero_descripcion(self, archivo, distrito=None, autoridad=None):
         separados = archivo.name.split('-')
         if len(separados) >= 3:
-            fecha = f'{separados[0]}-{separados[1]}-{separados[2]}'
+            try:
+                ano = int(separados[0][0:4])
+                mes = int(separados[1][0:2])
+                dia = int(separados[2][0:2])
+                fecha = '{}-{}-{}'.format(str(ano).zfill(4), str(mes).zfill(2), str(dia).zfill(2))
+                datetime.strptime(fecha, '%Y-%m-%d')
+            except ValueError:
+                fecha = self.config.fecha_por_defecto
         else:
             fecha = self.config.fecha_por_defecto
         if len(separados) >= 5:
