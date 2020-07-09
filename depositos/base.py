@@ -26,7 +26,7 @@ class Base(object):
             fecha = self.config.fecha_por_defecto
         # Descripción
         if len(separados) >= 4:
-            descripcion = ' '.join(separados[3:])
+            descripcion = ' '.join(separados[3:]).title()
         else:
             descripcion = ''
         # Archivo
@@ -42,7 +42,7 @@ class Base(object):
 
     def separar_fecha_expediente_descripcion(self, archivo, distrito=None, autoridad=None):
         """ Separar fecha, expediente y descripción, entrega diccionario con el renglón """
-        separados = archivo.name.split('-')
+        separados = archivo.stem.split('-')
         # Fecha
         if len(separados) >= 3:
             try:
@@ -62,7 +62,7 @@ class Base(object):
             expediente = ''
         # Descripción
         if len(separados) >= 6:
-            descripcion = ' '.join(separados[5:])
+            descripcion = ' '.join(separados[5:]).title()
         else:
             descripcion = ''
         # Archivo
@@ -78,7 +78,7 @@ class Base(object):
 
     def separar_fecha_sentencia_expediente_genero_descripcion(self, archivo, distrito=None, autoridad=None):
         """ Separar fecha, sentencia, expediente y género, entrega diccionario con el renglón """
-        separados = archivo.name.split('-')
+        separados = archivo.stem.split('-')
         # Fecha
         if len(separados) >= 3:
             try:
