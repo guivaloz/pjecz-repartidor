@@ -39,7 +39,7 @@ def rastrear(config):
 @cli.command()
 @pass_config
 def guardar_json_por_autoridad(config):
-    """ Crear JSON """
+    """ Guardar archivos JSON por autoridad """
     click.echo('Voy a guardar archivos JSON por autoridad...')
     deposito = Deposito(config, config.deposito_ruta)
     deposito.rastrear()
@@ -54,7 +54,7 @@ def guardar_json_por_autoridad(config):
 @cli.command()
 @pass_config
 def guardar_json_por_fecha(config):
-    """ Crear JSON """
+    """ Guardar archivos JSON para la fecha dada """
     click.echo('Voy a guardar archivos JSON por fecha...')
     deposito = Deposito(config, config.deposito_ruta)
     deposito.rastrear()

@@ -17,6 +17,7 @@ class Config(object):
         self.servidor_json_url = ''
 
     def cargar_configuraciones(self):
+        """ Cargar configuraciones en settings.ini """
         if self.rama == '':
             raise Exception('ERROR: Faltó definir la rama.')
         settings = configparser.ConfigParser()
