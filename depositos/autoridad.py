@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
-from depositos.base import Base
 from comunes.funciones import cambiar_texto_a_identificador
+from depositos.base import Base
 
 
 class Autoridad(Base):

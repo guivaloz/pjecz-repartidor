@@ -62,6 +62,32 @@ def guardar_json_por_fecha(config):
     sys.exit(0)
 
 
+@cli.command()
+@pass_config
+def guardar_json_reporte_distritos(config):
+    """ Guardar archivos JSON con reportes de los distritos """
+    click.echo('Voy a guardar archivos JSON con reportes de los distritos...')
+    deposito = Deposito(config, config.deposito_ruta)
+    deposito.rastrear()
+    click.echo(deposito.guardar_json_reporte_distritos())
+    sys.exit(0)
+
+
+@cli.command()
+@pass_config
+def guardar_json_reporte_autoridades(config):
+    """ Guardar archivos JSON con reportes de las autoridades """
+    click.echo('Voy a guardar archivos JSON con reportes de las autoridades...')
+    deposito = Deposito(config, config.deposito_ruta)
+    deposito.rastrear()
+    for distrito in deposito.distritos:
+        distrito.rastrear()
+        click.echo(distrito.guardar_json_reporte_autoridades())
+    sys.exit(0)
+
+
 cli.add_command(rastrear)
 cli.add_command(guardar_json_por_autoridad)
 cli.add_command(guardar_json_por_fecha)
+cli.add_command(guardar_json_reporte_distritos)
+cli.add_command(guardar_json_reporte_autoridades)

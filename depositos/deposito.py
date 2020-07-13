@@ -61,6 +61,32 @@ class Deposito(Base):
         salida = {'data': listado}
         return(json.dumps(salida))
 
+    def crear_ruta_json_reporte_distritos(self):
+        """ Crear la ruta al archivo JSON para el reporte """
+        return(Path(
+            self.config.servidor_json_ruta,
+            'reporte.json',
+        ))
+
+    def crear_contenido_json_reporte_distritos(self):
+        """ Crear el contenido JSON para el reporte """
+        if self.ya_rastreado is False:
+            self.rastrear()
+        listado = []
+        for distrito in self.distritos:
+            listado.append({'distrito': distrito.nombre})
+        return(json.dumps({'data': listado}))
+
+    def guardar_json_reporte_distritos(self):
+        """ Guardar JSON para el reporte """
+        ruta = self.crear_ruta_json_reporte_distritos()
+        padre_dir = ruta.parent
+        if not padre_dir.exists():
+            padre_dir.mkdir(parents=True)
+        with open(ruta, 'w') as puntero:
+            puntero.write(self.crear_contenido_json_reporte_distritos())
+        return(str(ruta))
+
     def __repr__(self):
         distritos_repr = '\n  '.join([repr(distrito) for distrito in self.distritos])
         if self.ya_rastreado:
