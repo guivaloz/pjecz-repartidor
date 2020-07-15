@@ -32,7 +32,7 @@ class Distrito(Base):
                     self.autoridades.append(autoridad)
             self.ya_rastreado = True
 
-    def crear_ruta_json_reporte_autoridades(self):
+    def crear_reporte_ruta(self):
         """ Crear la ruta al archivo JSON para el reporte """
         return(Path(
             self.config.servidor_json_ruta,
@@ -40,7 +40,7 @@ class Distrito(Base):
             'reporte.json',
         ))
 
-    def crear_contenido_json_reporte_autoridades(self):
+    def crear_reporte_contenido(self):
         if self.ya_rastreado is False:
             self.rastrear()
         listado = []
@@ -48,15 +48,12 @@ class Distrito(Base):
             listado.append({'distrito': self.nombre, 'autoridad': autoridad.nombre})
         return(json.dumps({'data': listado}))
 
-    def guardar_json_reporte_autoridades(self):
+    def guardar_reporte(self):
         """ Guardar JSON para el reporte """
-        ruta = self.crear_ruta_json_reporte_autoridades()
-        padre_dir = ruta.parent
-        if not padre_dir.exists():
-            padre_dir.mkdir(parents=True)
-        with open(ruta, 'w') as puntero:
-            puntero.write(self.crear_contenido_json_reporte_autoridades())
-        return(str(ruta))
+        return(self.guardar(
+            self.crear_reporte_ruta(),
+            self.crear_reporte_contenido(),
+        ))
 
     def __repr__(self):
         autoridades_repr = '\n    '.join([repr(autoridad) for autoridad in self.autoridades])

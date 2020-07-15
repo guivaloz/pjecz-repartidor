@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import quote
 
 
@@ -117,12 +118,15 @@ class Base(object):
             renglon['autoridad'] = autoridad.nombre
         return(renglon)
 
-    def guardar_json(self):
-        """ Guardar JSON """
-        ruta = self.crear_ruta_json()
+    def guardar(self, ruta, contenido):
+        """ Guardar archivo JSON, requiere la ruta como Path y el contenido como texto, entrega la ruta como texto """
+        if not isinstance(ruta, Path):
+            raise Exception('ERROR: Al guardar la ruta no es instancia de Path.')
+        if not isinstance(contenido, str):
+            raise Exception('ERROR: Al guardar el contenido no es texto.')
         padre_dir = ruta.parent
         if not padre_dir.exists():
             padre_dir.mkdir(parents=True)
         with open(ruta, 'w') as puntero:
-            puntero.write(self.crear_contenido_json())
+            puntero.write(contenido)
         return(str(ruta))

@@ -30,7 +30,7 @@ class Autoridad(Base):
                     self.archivos.append(item)
             self.ya_rastreado = True
 
-    def crear_ruta_json(self):
+    def crear_completo_ruta(self):
         """ Crear la ruta al archivo JSON /var/www/html/consultas/v2.0/<RAMA>/<DISTRITO>/<AUTORIDAD>.json """
         return(Path(
             self.config.servidor_json_ruta,
@@ -38,7 +38,7 @@ class Autoridad(Base):
             cambiar_texto_a_identificador(self.nombre) + '.json',
         ))
 
-    def crear_contenido_json(self):
+    def crear_completo_contenido(self):
         """ Crear el contenido JSON """
         if self.ya_rastreado is False:
             self.rastrear()
@@ -54,6 +54,13 @@ class Autoridad(Base):
             raise Exception(f'AVISO: Mal configurado, no está programado {self.config.metadatos_partes}')
         listado = [funcion(archivo) for archivo in self.archivos]
         return(json.dumps({'data': listado}))
+
+    def guardar_completo(self):
+        """ Guardar JSON """
+        return(self.guardar(
+            self.crear_completo_ruta(),
+            self.crear_completo_contenido(),
+        ))
 
     def __repr__(self):
         archivos_repr = '\n      '.join([archivo.name for archivo in self.archivos])
