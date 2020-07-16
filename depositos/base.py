@@ -10,6 +10,12 @@ class Base(object):
         self.config = config
         self.ruta = ruta
 
+    def crear_google_storage_url(self, archivo):
+        """ Crear URL a Google Starage """
+        archivo_relativa_ruta = str(archivo)[len(self.config.deposito_ruta):]
+        url = quote(self.config.google_storage_url + archivo_relativa_ruta, safe=':/')
+        return(url)
+
     def separar_fecha_descripcion(self, archivo, distrito=None, autoridad=None):
         """ Separar fecha y descripción, entrega diccionario con el renglón """
         separados = archivo.stem.split('-')
@@ -30,11 +36,12 @@ class Base(object):
             descripcion = ' '.join(separados[3:]).title()
         else:
             descripcion = ''
-        # Archivo
-        archivo_relativa_ruta = str(archivo)[len(self.config.deposito_ruta):]
-        url = quote(self.config.google_storage_url + archivo_relativa_ruta, safe=':/')
         # Renglón
-        renglon = {'fecha': fecha, 'descripcion': descripcion, 'archivo': url}
+        renglon = {
+            'fecha': fecha,
+            'descripcion': descripcion,
+            'archivo': self.crear_google_storage_url(archivo),
+        }
         if distrito is not None:
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:
@@ -66,11 +73,13 @@ class Base(object):
             descripcion = ' '.join(separados[5:]).title()
         else:
             descripcion = ''
-        # Archivo
-        archivo_relativa_ruta = str(archivo)[len(self.config.deposito_ruta):]
-        url = quote(self.config.google_storage_url + archivo_relativa_ruta, safe=':/')
         # Renglón
-        renglon = {'fecha': fecha, 'expediente': expediente, 'descripcion': descripcion, 'archivo': url}
+        renglon = {
+            'fecha': fecha,
+            'expediente': expediente,
+            'descripcion': descripcion,
+            'archivo': self.crear_google_storage_url(archivo),
+        }
         if distrito is not None:
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:
@@ -107,11 +116,14 @@ class Base(object):
             p_genero = 'Sí'
         else:
             p_genero = 'No'
-        # Archivo
-        archivo_relativa_ruta = str(archivo)[len(self.config.deposito_ruta):]
-        url = quote(self.config.google_storage_url + archivo_relativa_ruta, safe=':/')
         # Renglón
-        renglon = {'fecha': fecha, 'sentencia': sentencia, 'expediente': expediente, 'genero': p_genero, 'archivo': url}
+        renglon = {
+            'fecha': fecha,
+            'sentencia': sentencia,
+            'expediente': expediente,
+            'genero': p_genero,
+            'archivo': self.crear_google_storage_url(archivo),
+        }
         if distrito is not None:
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:

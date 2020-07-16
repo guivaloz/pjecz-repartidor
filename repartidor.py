@@ -64,12 +64,13 @@ def guardar_diario(config):
 
 @cli.command()
 @pass_config
-def guardar_reporte_deposito(config):
+@click.option('--sufijo', default='', type=str, help='Sufijo para nombre del archivo, use HHMM')
+def guardar_reporte_deposito(config, sufijo):
     """ Guardar archivo JSON con el reporte del depósito """
     click.echo('Voy a guardar archivos JSON con reportes de los distritos...')
     deposito = Deposito(config, config.deposito_ruta)
     deposito.rastrear()
-    click.echo(deposito.guardar_reporte())
+    click.echo(deposito.guardar_reporte(sufijo))
     sys.exit(0)
 
 

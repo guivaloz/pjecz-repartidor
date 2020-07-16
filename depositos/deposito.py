@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from pathlib import Path
 from depositos.base import Base
 from depositos.distrito import Distrito
@@ -70,11 +71,21 @@ class Deposito(Base):
             self.crear_diario_contenido(),
         ))
 
-    def crear_reporte_ruta(self):
+    def crear_reporte_ruta(self, sufijo):
         """ Crear la ruta al archivo JSON para el reporte """
+        if self.config.fecha == '':
+            if sufijo == '':
+                nombre = f'reporte.json'
+            else:
+                nombre = f'reporte-{sufijo}.json'
+        else:
+            if sufijo == '':
+                nombre = f'reporte-{self.config.fecha}.json'
+            else:
+                nombre = f'reporte-{self.config.fecha}-{sufijo}.json'
         return(Path(
             self.config.servidor_json_ruta,
-            'reporte.json',
+            nombre,
         ))
 
     def crear_reporte_contenido(self):
@@ -82,14 +93,43 @@ class Deposito(Base):
         if self.ya_rastreado is False:
             self.rastrear()
         listado = []
-        for distrito in self.distritos:
-            listado.append({'distrito': distrito.nombre})
+        if self.config.fecha == '':
+            # Sin fecha
+            for distrito in self.distritos:
+                for autoridad in distrito.autoridades:
+                    listado.append({
+                        'distrito': distrito.nombre,
+                        'autoridad': autoridad.nombre,
+                    })
+        else:
+            # Con fecha
+            for distrito in self.distritos:
+                for autoridad in distrito.autoridades:
+                    archivos = []
+                    for archivo in autoridad.archivos:
+                        ts = datetime.fromtimestamp(archivo.stat().st_mtime)
+                        datos = {
+                            'nombre': archivo.name,
+                            'tiempo': ts.strftime('%Y-%m-%d %H:%M'),
+                            'url': self.crear_google_storage_url(archivo),
+                        }
+                        archivos.append(datos)
+                    if len(archivos) > 0:
+                        entrega = 'Entregado'
+                    else:
+                        entrega = 'Pendiente'
+                    listado.append({
+                        'distrito': distrito.nombre,
+                        'autoridad': autoridad.nombre,
+                        'entrega': entrega,
+                        'archivos': archivos,
+                    })
         return(json.dumps({'data': listado}))
 
-    def guardar_reporte(self):
+    def guardar_reporte(self, sufijo):
         """ Guardar JSON para el reporte """
         return(self.guardar(
-            self.crear_reporte_ruta(),
+            self.crear_reporte_ruta(sufijo),
             self.crear_reporte_contenido(),
         ))
 
