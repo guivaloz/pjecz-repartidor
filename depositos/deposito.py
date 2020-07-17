@@ -110,7 +110,9 @@ class Deposito(Base):
                             'distrito': distrito.nombre,
                             'autoridad': autoridad.nombre,
                             'entrega': 'Pendiente',
+                            'cuando': 'ND',
                             'archivo': 'ND',
+                            'descargar': 'ND',
                         })
                     else:
                         for archivo in autoridad.archivos:
