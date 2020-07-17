@@ -105,25 +105,24 @@ class Deposito(Base):
             # Con fecha
             for distrito in self.distritos:
                 for autoridad in distrito.autoridades:
-                    archivos = []
-                    for archivo in autoridad.archivos:
-                        ts = datetime.fromtimestamp(archivo.stat().st_mtime)
-                        datos = {
-                            'nombre': archivo.name,
-                            'tiempo': ts.strftime('%Y-%m-%d %H:%M'),
-                            'url': self.crear_google_storage_url(archivo),
-                        }
-                        archivos.append(datos)
-                    if len(archivos) > 0:
-                        entrega = 'Entregado'
+                    if len(autoridad.archivos) == 0:
+                        listado.append({
+                            'distrito': distrito.nombre,
+                            'autoridad': autoridad.nombre,
+                            'entrega': 'Pendiente',
+                            'archivo': 'ND',
+                        })
                     else:
-                        entrega = 'Pendiente'
-                    listado.append({
-                        'distrito': distrito.nombre,
-                        'autoridad': autoridad.nombre,
-                        'entrega': entrega,
-                        'archivos': archivos,
-                    })
+                        for archivo in autoridad.archivos:
+                            ts = datetime.fromtimestamp(archivo.stat().st_mtime)
+                            listado.append({
+                                'distrito': distrito.nombre,
+                                'autoridad': autoridad.nombre,
+                                'entrega': 'Entregado',
+                                'cuando': ts.strftime('%Y-%m-%d %H:%M'),
+                                'archivo': archivo.name,
+                                'descargar': self.crear_google_storage_url(archivo),
+                            })
         return(json.dumps({'data': listado}))
 
     def guardar_reporte(self, sufijo):
