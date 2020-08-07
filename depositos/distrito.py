@@ -46,7 +46,8 @@ class Distrito(Base):
         listado = []
         for autoridad in self.autoridades:
             listado.append({'distrito': self.nombre, 'autoridad': autoridad.nombre})
-        return(json.dumps({'data': listado}))
+        titulo = f'Reporte por distrito de {self.config.rama}'
+        return(json.dumps({'titulo': titulo, 'elaborado': self.config.ahora_str, 'data': listado}))
 
     def guardar_reporte(self):
         """ Guardar JSON para el reporte """

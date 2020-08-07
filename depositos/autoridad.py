@@ -53,7 +53,8 @@ class Autoridad(Base):
         else:
             raise Exception(f'AVISO: Mal configurado, no está programado {self.config.metadatos_partes}')
         listado = [funcion(archivo) for archivo in self.archivos]
-        return(json.dumps({'data': listado}))
+        titulo = f'Reporte por autoridad de {self.config.rama}'
+        return(json.dumps({'titulo': titulo, 'elaborado': self.config.ahora_str, 'data': listado}))
 
     def guardar_completo(self):
         """ Guardar JSON """

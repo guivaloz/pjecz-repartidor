@@ -11,3 +11,10 @@ Ejecute
 ## Guardar completos
 
     $ repartidor --rama acuerdos guardar-completos
+
+## Por programar estos estatus en los reportes de las Listas de Acuerdos
+
+- El color verde indica que la lista fue subida el mismo día que fue generada y antes de las 15:00 horas.
+- El color amarillo indica las listas de acuerdo que fueron subidas después de las 15:00 horas del día indicado.
+- El color naranja indica las listas de acuerdo subidas después de la fecha de la lista correspondiente.
+- El color rojo indica las listas de acuerdos no subidas en la fecha indicada. (No existe archivo)

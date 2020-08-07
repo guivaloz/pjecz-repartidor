@@ -61,8 +61,8 @@ class Deposito(Base):
             for autoridad in distrito.autoridades:
                 autoridad.rastrear()
                 listado += [funcion(archivo, distrito=distrito, autoridad=autoridad) for archivo in autoridad.archivos]
-        salida = {'data': listado}
-        return(json.dumps(salida))
+        titulo = f'Diario {self.config.rama}'
+        return(json.dumps({'titulo': titulo, 'elaborado': self.config.ahora_str, 'data': listado}))
 
     def guardar_diario(self):
         """ Guardar JSON """
@@ -101,6 +101,7 @@ class Deposito(Base):
                         'distrito': distrito.nombre,
                         'autoridad': autoridad.nombre,
                     })
+            titulo = f'Reporte del depósito {self.config.rama}'
         else:
             # Con fecha
             for distrito in self.distritos:
@@ -125,7 +126,8 @@ class Deposito(Base):
                                 'archivo': archivo.name,
                                 'descargar': self.crear_google_storage_url(archivo),
                             })
-        return(json.dumps({'data': listado}))
+            titulo = f'Reporte del depósito {self.config.rama}'
+        return(json.dumps({'titulo': titulo, 'elaborado': self.config.ahora_str, 'data': listado}))
 
     def guardar_reporte(self, sufijo):
         """ Guardar JSON para el reporte """
