@@ -1,3 +1,6 @@
+"""
+Base
+"""
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote
@@ -14,7 +17,7 @@ class Base(object):
         """ Crear URL a Google Starage """
         archivo_relativa_ruta = str(archivo)[len(self.config.deposito_ruta):]
         url = quote(self.config.google_storage_url + archivo_relativa_ruta, safe=':/')
-        return(url)
+        return url
 
     def separar_fecha_descripcion(self, archivo, distrito=None, autoridad=None):
         """ Separar fecha y descripción, entrega diccionario con el renglón """
@@ -46,7 +49,7 @@ class Base(object):
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:
             renglon['autoridad'] = autoridad.nombre
-        return(renglon)
+        return renglon
 
     def separar_fecha_expediente_descripcion(self, archivo, distrito=None, autoridad=None):
         """ Separar fecha, expediente y descripción, entrega diccionario con el renglón """
@@ -84,7 +87,7 @@ class Base(object):
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:
             renglon['autoridad'] = autoridad.nombre
-        return(renglon)
+        return renglon
 
     def separar_fecha_sentencia_expediente_genero_descripcion(self, archivo, distrito=None, autoridad=None):
         """ Separar fecha, sentencia, expediente y género, entrega diccionario con el renglón """
@@ -128,7 +131,7 @@ class Base(object):
             renglon['distrito'] = distrito.nombre
         if autoridad is not None:
             renglon['autoridad'] = autoridad.nombre
-        return(renglon)
+        return renglon
 
     def guardar(self, ruta, contenido):
         """ Guardar archivo JSON, requiere la ruta como Path y el contenido como texto, entrega la ruta como texto """
@@ -141,4 +144,4 @@ class Base(object):
             padre_dir.mkdir(parents=True)
         with open(ruta, 'w') as puntero:
             puntero.write(contenido)
-        return(str(ruta))
+        return str(ruta)

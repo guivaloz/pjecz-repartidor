@@ -1,7 +1,9 @@
-__pycache__/
+.directory
+.DS_STORE
 *.egg-info/
 *.csv
 *.log
 *.py[cod]
-.directory
-settings.ini
+__pycache__/
+/settings.ini
+/venv

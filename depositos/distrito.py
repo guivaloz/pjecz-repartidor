@@ -1,3 +1,6 @@
+"""
+Distrito
+"""
 import json
 from pathlib import Path
 from comunes.funciones import cambiar_texto_a_identificador

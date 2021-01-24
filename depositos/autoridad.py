@@ -1,3 +1,6 @@
+"""
+Autoridad
+"""
 import json
 from pathlib import Path
 from comunes.funciones import cambiar_texto_a_identificador
@@ -32,11 +35,11 @@ class Autoridad(Base):
 
     def crear_completo_ruta(self):
         """ Crear la ruta al archivo JSON /var/www/html/consultas/v2.0/<RAMA>/<DISTRITO>/<AUTORIDAD>.json """
-        return(Path(
+        return Path(
             self.config.servidor_json_ruta,
             cambiar_texto_a_identificador(self.distrito_nombre),
             cambiar_texto_a_identificador(self.nombre) + '.json',
-        ))
+        )
 
     def crear_completo_contenido(self):
         """ Crear el contenido JSON """
@@ -54,21 +57,20 @@ class Autoridad(Base):
             raise Exception(f'AVISO: Mal configurado, no está programado {self.config.metadatos_partes}')
         listado = [funcion(archivo) for archivo in self.archivos]
         titulo = f'Reporte por autoridad de {self.config.rama}'
-        return(json.dumps({'titulo': titulo, 'elaborado': self.config.ahora_str, 'data': listado}))
+        return json.dumps({'titulo': titulo, 'elaborado': self.config.ahora_str, 'data': listado})
 
     def guardar_completo(self):
         """ Guardar JSON """
-        return(self.guardar(
+        return self.guardar(
             self.crear_completo_ruta(),
             self.crear_completo_contenido(),
-        ))
+        )
 
     def __repr__(self):
         archivos_repr = '\n      '.join([archivo.name for archivo in self.archivos])
         if self.ya_rastreado:
             if len(self.archivos) > 0:
-                return('<Autoridad> {}\n      {}'.format(self.nombre, archivos_repr))
+                return '<Autoridad> {}\n      {}'.format(self.nombre, archivos_repr)
             else:
-                return('<Autoridad> No se encontraron archivos')
-        else:
-            return('<Autoridad>')
+                return '<Autoridad> No se encontraron archivos'
+        return '<Autoridad>'

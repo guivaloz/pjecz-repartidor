@@ -1,5 +1,9 @@
-import click
+"""
+Repartidor
+"""
 import sys
+import click
+
 from comunes.config import pass_config
 from comunes.funciones import validar_autoridad, validar_distrito, validar_fecha, validar_rama
 from depositos.deposito import Deposito

@@ -1,3 +1,6 @@
+"""
+Config
+"""
 import click
 import configparser
 import locale
