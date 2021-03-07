@@ -10,14 +10,14 @@ from depositos.deposito import Deposito
 
 
 @click.group()
-@click.option('--rama', default='', type=str, help='Acuerdos, Edictos, EdictosJuzgados o Sentencias')
-@click.option('--distrito', default='', type=str, help='Filtro por Distrito')
-@click.option('--autoridad', default='', type=str, help='Filtro por Autoridad')
-@click.option('--fecha', default='', type=str, help='Filtro por Fecha')
+@click.option("--rama", default="", type=str, help="Acuerdos, Edictos, EdictosJuzgados o Sentencias")
+@click.option("--distrito", default="", type=str, help="Filtro por Distrito")
+@click.option("--autoridad", default="", type=str, help="Filtro por Autoridad")
+@click.option("--fecha", default="", type=str, help="Filtro por Fecha")
 @pass_config
 def cli(config, rama, distrito, autoridad, fecha):
-    """ Repartir los documentos van a ser públicos """
-    click.echo('Hola, ¡soy Repartidor!')
+    """ Mi objetivo es crear los archivos JSON que usa un reporte hecho en HTML y JS """
+    click.echo("Hola, ¡soy Repartidor!")
     try:
         config.rama = validar_rama(rama)
         config.distrito = validar_distrito(distrito)
@@ -33,7 +33,7 @@ def cli(config, rama, distrito, autoridad, fecha):
 @pass_config
 def rastrear(config):
     """ Rastrear """
-    click.echo('Voy a rastrear...')
+    click.echo("Voy a rastrear...")
     deposito = Deposito(config, config.deposito_ruta)
     deposito.rastrear()
     click.echo(repr(deposito))
@@ -44,7 +44,7 @@ def rastrear(config):
 @pass_config
 def guardar_completos(config):
     """ Guardar archivos JSON completos, para cada autoridad todos sus archivos """
-    click.echo('Voy a guardar archivos JSON por autoridad...')
+    click.echo("Voy a guardar archivos JSON por autoridad...")
     deposito = Deposito(config, config.deposito_ruta)
     deposito.rastrear()
     for distrito in deposito.distritos:
@@ -59,7 +59,7 @@ def guardar_completos(config):
 @pass_config
 def guardar_diario(config):
     """ Guardar archivo JSON diario, todos los archivos de la fecha dada """
-    click.echo('Voy a guardar archivos JSON por fecha...')
+    click.echo("Voy a guardar archivos JSON por fecha...")
     deposito = Deposito(config, config.deposito_ruta)
     deposito.rastrear()
     click.echo(deposito.guardar_diario())
@@ -68,10 +68,10 @@ def guardar_diario(config):
 
 @cli.command()
 @pass_config
-@click.option('--sufijo', default='', type=str, help='Sufijo para nombre del archivo, use HHMM')
+@click.option("--sufijo", default="", type=str, help="Sufijo para nombre del archivo, use HHMM")
 def guardar_reporte_deposito(config, sufijo):
     """ Guardar archivo JSON con el reporte del depósito """
-    click.echo('Voy a guardar archivos JSON con reportes de los distritos...')
+    click.echo("Voy a guardar archivos JSON con reportes de los distritos...")
     deposito = Deposito(config, config.deposito_ruta)
     deposito.rastrear()
     click.echo(deposito.guardar_reporte(sufijo))
@@ -82,7 +82,7 @@ def guardar_reporte_deposito(config, sufijo):
 @pass_config
 def guardar_reportes_distritos(config):
     """ Guardar archivos JSON con reportes por distrito """
-    click.echo('Voy a guardar archivos JSON con reportes de las autoridades...')
+    click.echo("Voy a guardar archivos JSON con reportes de las autoridades...")
     deposito = Deposito(config, config.deposito_ruta)
     deposito.rastrear()
     for distrito in deposito.distritos:

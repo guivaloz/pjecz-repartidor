@@ -1,3 +1,5 @@
 # pjecz-repartidor
 
-Repartir los documentos van a ser públicos: A partir de documentos que se van a cargar a Google Storage crea archivos JSON como insumos para las consultas; una forma de publicar consultas está en sitio web programado en JavaScript.
+## Objetivo
+
+Crear los archivos JSON que usan una demostración hecha en HTML y JS, para consultar reportes diarios sobre la entrega de listas de acuerdos.
